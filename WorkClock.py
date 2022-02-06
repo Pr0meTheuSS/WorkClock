@@ -19,8 +19,10 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(313, 210)
-        MainWindow.setAutoFillBackground(True)
-        MainWindow.setWindowFlag(True)
+        # Hidden frame borders
+        MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        MainWindow.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("QWidget{\n"
                                          "    background-color: rgb(120, 125, 160);\n"
@@ -723,10 +725,10 @@ class Ui_MainWindow(object):
             self.Timer.stop()
         else:
             self.Timer.Stop()
-            self.SetAllSpinBoxZero()
+            self.set_all_spinboxes_zero()
 
-    def SetAllSpinBoxZero(self):
-        pass
+    def set_all_spinboxes_zero(self):
+        print("All SpinBoxes set in zero value!")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
