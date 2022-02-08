@@ -18,7 +18,9 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(313, 210)
+        MainWindow.resize(310, 210)
+        MainWindow.setMinimumSize(310, 210)
+        MainWindow.setMaximumSize(310, 210)
         # Hidden frame borders
         MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         MainWindow.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -111,9 +113,35 @@ class Ui_MainWindow(object):
                                       "padding-left: 3px;\n"
                                       "padding-bottom: 3px;\n"
                                       "}")
-        self.Cancel_btn.setObjectName("Cancel_btn")
+
+        # Exit Button
+        self.Exit_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.Exit_btn.setGeometry(QtCore.QRect(280, 10, 20, 20))
+        self.Exit_btn.setAcceptDrops(False)
+        self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.Exit_btn.setStyleSheet("QPushButton{\n"
+                                      "background: url(Images/ExitWidget.png) no-repeat center;\n"
+                                      "border-radius:10px;\n"
+                                      "}"
+                                      "QPushButton:hover{\n"
+                                      "background-color: rgb(75, 93, 105);\n"
+                                      "border-radius:10px;\n"
+                                      "padding-left: 3px;\n"
+                                      "padding-bottom: 3px;\n"
+                                      "}")
+        self.Exit_btn.setObjectName("Exit_btn")
+
+        # ClockImage_lbl
+        self.ClockImage_lbl = QtWidgets.QLabel(self.centralwidget)
+        self.ClockImage_lbl.setGeometry(QtCore.QRect(125, 10, 40, 40))
+        self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.ClockImage_lbl.setStyleSheet("QLabel{\n"
+                                      "background: url(Images/ClockWidget.png) no-repeat center;\n"
+                                      "}")
+        self.ClockImage_lbl.setObjectName("ClockImage_lbl")
+
         self.OutputTime_lbl = QtWidgets.QLabel(self.centralwidget)
-        self.OutputTime_lbl.setGeometry(QtCore.QRect(140, 80, 110, 30))
+        self.OutputTime_lbl.setGeometry(QtCore.QRect(280, 180, 20, 20))
         self.OutputTime_lbl.setText("")
         self.OutputTime_lbl.setObjectName("OutputTime_lbl")
         self.spinBoxHours = QtWidgets.QSpinBox(self.centralwidget)
@@ -123,6 +151,7 @@ class Ui_MainWindow(object):
                                         "background-color: rgb(55, 83, 95);\n"
                                         "    border-radius:10px;\n"
                                         "}")
+
         self.spinBoxHours.setWrapping(True)
         self.spinBoxHours.setFrame(False)
         self.spinBoxHours.setAlignment(QtCore.Qt.AlignCenter)
@@ -205,6 +234,7 @@ class Ui_MainWindow(object):
         self.Start_btn.clicked.connect(lambda: self.btn_click_handler(self.Start_btn.objectName()))
         self.Stop_btn.clicked.connect(lambda: self.btn_click_handler(self.Stop_btn.objectName()))
         self.Cancel_btn.clicked.connect(lambda: self.btn_click_handler(self.Cancel_btn.objectName()))
+        self.Exit_btn.clicked.connect(lambda: self.btn_click_handler(self.Exit_btn.objectName()))
 
     def DecTimer(self):
 
@@ -225,12 +255,15 @@ class Ui_MainWindow(object):
 
     def btn_click_handler(self, obj_name):
         print(obj_name)
+        if obj_name == "Exit_btn":
+            print("Called Exit")
+            sys.exit(app.exec_())
         if obj_name == "Start_btn":
             self.Timer.start(1000)
         elif obj_name == "Stop_btn":
             self.Timer.stop()
         else:
-            self.Timer.Stop()
+            self.Timer.stop()
             self.set_all_spinboxes_zero()
 
     def set_all_spinboxes_zero(self):
