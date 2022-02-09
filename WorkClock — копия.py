@@ -9,12 +9,21 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtDesigner
+from pygame import mixer
+import os
 
+mixer.init()
+
+exec_dir_path = os.path.dirname(os.path.abspath(__file__))
 
 class Ui_MainWindow(object):
     def __init__(self):
+        self.Image_src_path = exec_dir_path + '/Images/'
+        self.Sound_src_path = exec_dir_path + '/Sounds/'
+
         self.Timer = QtCore.QTimer()
         self.Timer.timeout.connect(self.DecTimer)
+        mixer.music.load(self.Sound_src_path + 'ClockSound.wav')
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -120,15 +129,15 @@ class Ui_MainWindow(object):
         self.Exit_btn.setAcceptDrops(False)
         self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.Exit_btn.setStyleSheet("QPushButton{\n"
-                                      "background: url(Images/ExitWidget.png) no-repeat center;\n"
-                                      "border-radius:10px;\n"
-                                      "}"
-                                      "QPushButton:hover{\n"
-                                      "background-color: rgb(75, 93, 105);\n"
-                                      "border-radius:10px;\n"
-                                      "padding-left: 3px;\n"
-                                      "padding-bottom: 3px;\n"
-                                      "}")
+                                    "background: url(Images/ExitWidget.png) no-repeat center;\n"
+                                    "border-radius:10px;\n"
+                                    "}"
+                                    "QPushButton:hover{\n"
+                                    "background-color: rgb(75, 93, 105);\n"
+                                    "border-radius:10px;\n"
+                                    "padding-left: 3px;\n"
+                                    "padding-bottom: 3px;\n"
+                                    "}")
         self.Exit_btn.setObjectName("Exit_btn")
 
         # ClockImage_lbl
@@ -136,8 +145,8 @@ class Ui_MainWindow(object):
         self.ClockImage_lbl.setGeometry(QtCore.QRect(125, 10, 40, 40))
         self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.ClockImage_lbl.setStyleSheet("QLabel{\n"
-                                      "background: url(Images/ClockWidget.png) no-repeat center;\n"
-                                      "}")
+                                          "background: url(" + self.Image_src_path + ") no-repeat center;\n"
+                                          "}")
         self.ClockImage_lbl.setObjectName("ClockImage_lbl")
 
         self.OutputTime_lbl = QtWidgets.QLabel(self.centralwidget)
@@ -237,7 +246,6 @@ class Ui_MainWindow(object):
         self.Exit_btn.clicked.connect(lambda: self.btn_click_handler(self.Exit_btn.objectName()))
 
     def DecTimer(self):
-
         hours_text = self.spinBoxHours.text()
         minutes_text = self.spinBoxMinutes.text()
         seconds_text = self.spinBoxSeconds.text()
@@ -252,6 +260,7 @@ class Ui_MainWindow(object):
             self.spinBoxHours.setValue(new_time.hour())
         else:
             self.Timer.stop()
+            mixer.music.stop()
 
     def btn_click_handler(self, obj_name):
         print(obj_name)
@@ -259,11 +268,14 @@ class Ui_MainWindow(object):
             print("Called Exit")
             sys.exit(app.exec_())
         if obj_name == "Start_btn":
+            mixer.music.play()
             self.Timer.start(1000)
         elif obj_name == "Stop_btn":
             self.Timer.stop()
+            mixer.music.stop()
         else:
             self.Timer.stop()
+            mixer.music.stop()
             self.set_all_spinboxes_zero()
 
     def set_all_spinboxes_zero(self):
