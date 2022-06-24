@@ -13,11 +13,37 @@ from pygame import mixer
 import os
 
 mixer.init()
-
 exec_dir_path = os.path.dirname(os.path.abspath(__file__))
 
-class Ui_MainWindow(object):
+
+class Ui_MainWindow(QtWidgets.QMainWindow):
+
+    def mouseMoveEvent(self, e):
+        if self.st == 1:
+            self.setGeometry(self.x() + e.x() - self.mousePosX, self.y() - self.mousePosY + e.y(), 0, 0)
+            print(e.x(), e.y())
+            self.resize(310, 210)
+
+    def mouseReleaseEvent(self, e):
+        if self.st == 1:
+            self.st = 0
+
+    def mousePressEvent(self, e):
+        print(dir(e))
+        if e.type() == QtCore.QEvent.MouseButtonPress:
+            print(e.x())
+            print(e.y())
+            self.mousePosX = e.x()
+            self.mousePosY = e.y()
+            self.st = 1
+
+    def closeEvent(self, event):
+        print("Close Event")
+        pass
+
     def __init__(self):
+        super().__init__()
+        self.setMouseTracking(True)
         self.Image_src_path = exec_dir_path + '/Images/'
         self.Sound_src_path = exec_dir_path + '/Sounds/'
 
@@ -25,22 +51,24 @@ class Ui_MainWindow(object):
         self.Timer.timeout.connect(self.DecTimer)
         mixer.music.load(self.Sound_src_path + 'ClockSound.wav')
 
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(310, 210)
-        MainWindow.setMinimumSize(310, 210)
-        MainWindow.setMaximumSize(310, 210)
+    def setupUi(self):
+        self.setObjectName("MainWindow")
+        self.setMouseTracking(True)
+        self.setGeometry(250, 250, 0, 0)
+        self.resize(310, 210)
+        self.setMinimumSize(310, 210)
+        self.setMaximumSize(310, 210)
         # Hidden frame borders
-        MainWindow.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-        MainWindow.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setStyleSheet("QWidget{\n"
+        self.Central_Widget = QtWidgets.QWidget(self)
+        self.Central_Widget.setStyleSheet("QWidget{\n"
                                          "    background-color: rgb(68, 147, 172);\n"
                                          "    border-radius:20px;\n"
                                          "}")
-        self.centralwidget.setObjectName("centralwidget")
-        self.Start_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.Central_Widget.setObjectName("Central_Widget")
+        self.Start_btn = QtWidgets.QPushButton(self.Central_Widget)
         self.Start_btn.setGeometry(QtCore.QRect(210, 120, 90, 30))
         font = QtGui.QFont()
         font.setBold(True)
@@ -63,7 +91,7 @@ class Ui_MainWindow(object):
                                      "padding-bottom: 3px;\n"
                                      "}")
         self.Start_btn.setObjectName("Start_btn")
-        self.Stop_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.Stop_btn = QtWidgets.QPushButton(self.Central_Widget)
         self.Stop_btn.setGeometry(QtCore.QRect(10, 120, 90, 30))
         font = QtGui.QFont()
         font.setBold(True)
@@ -89,7 +117,7 @@ class Ui_MainWindow(object):
                                     "padding-bottom: 3px;\n"
                                     "}")
         self.Stop_btn.setObjectName("Stop_btn")
-        self.Config_lbl = QtWidgets.QLabel(self.centralwidget)
+        self.Config_lbl = QtWidgets.QLabel(self.Central_Widget)
         self.Config_lbl.setGeometry(QtCore.QRect(10, 10, 340, 40))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -101,7 +129,7 @@ class Ui_MainWindow(object):
                                       "color:rgb(155, 236, 226);\n"
                                       "}")
         self.Config_lbl.setObjectName("Config_lbl")
-        self.Cancel_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.Cancel_btn = QtWidgets.QPushButton(self.Central_Widget)
         self.Cancel_btn.setGeometry(QtCore.QRect(110, 120, 90, 30))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -124,7 +152,7 @@ class Ui_MainWindow(object):
                                       "}")
 
         # Exit Button
-        self.Exit_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.Exit_btn = QtWidgets.QPushButton(self.Central_Widget)
         self.Exit_btn.setGeometry(QtCore.QRect(280, 10, 20, 20))
         self.Exit_btn.setAcceptDrops(False)
         self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
@@ -141,19 +169,19 @@ class Ui_MainWindow(object):
         self.Exit_btn.setObjectName("Exit_btn")
 
         # ClockImage_lbl
-        self.ClockImage_lbl = QtWidgets.QLabel(self.centralwidget)
+        self.ClockImage_lbl = QtWidgets.QLabel(self.Central_Widget)
         self.ClockImage_lbl.setGeometry(QtCore.QRect(125, 10, 40, 40))
         self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.ClockImage_lbl.setStyleSheet("QLabel{\n"
                                           "background: url(" + self.Image_src_path + ") no-repeat center;\n"
-                                          "}")
+                                                                                     "}")
         self.ClockImage_lbl.setObjectName("ClockImage_lbl")
 
-        self.OutputTime_lbl = QtWidgets.QLabel(self.centralwidget)
+        self.OutputTime_lbl = QtWidgets.QLabel(self.Central_Widget)
         self.OutputTime_lbl.setGeometry(QtCore.QRect(280, 180, 20, 20))
         self.OutputTime_lbl.setText("")
         self.OutputTime_lbl.setObjectName("OutputTime_lbl")
-        self.spinBoxHours = QtWidgets.QSpinBox(self.centralwidget)
+        self.spinBoxHours = QtWidgets.QSpinBox(self.Central_Widget)
         self.spinBoxHours.setGeometry(QtCore.QRect(10, 80, 40, 30))
         self.spinBoxHours.setStyleSheet("QSpinBox{\n"
                                         "color:rgb(155, 236, 226);\n"
@@ -168,7 +196,7 @@ class Ui_MainWindow(object):
         self.spinBoxHours.setMaximum(23)
         self.spinBoxHours.setSingleStep(1)
         self.spinBoxHours.setObjectName("spinBoxHours")
-        self.spinBoxMinutes = QtWidgets.QSpinBox(self.centralwidget)
+        self.spinBoxMinutes = QtWidgets.QSpinBox(self.Central_Widget)
         self.spinBoxMinutes.setGeometry(QtCore.QRect(60, 80, 40, 30))
         self.spinBoxMinutes.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.spinBoxMinutes.setStyleSheet("QSpinBox{\n"
@@ -183,7 +211,7 @@ class Ui_MainWindow(object):
         self.spinBoxMinutes.setMaximum(59)
         self.spinBoxMinutes.setSingleStep(1)
         self.spinBoxMinutes.setObjectName("spinBoxMinutes")
-        self.spinBoxSeconds = QtWidgets.QSpinBox(self.centralwidget)
+        self.spinBoxSeconds = QtWidgets.QSpinBox(self.Central_Widget)
         self.spinBoxSeconds.setGeometry(QtCore.QRect(110, 80, 40, 30))
         self.spinBoxSeconds.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.spinBoxSeconds.setStyleSheet("QSpinBox{\n"
@@ -198,7 +226,7 @@ class Ui_MainWindow(object):
         self.spinBoxSeconds.setMaximum(59)
         self.spinBoxSeconds.setSingleStep(1)
         self.spinBoxSeconds.setObjectName("spinBoxSeconds")
-        self.Config_lbl_2 = QtWidgets.QLabel(self.centralwidget)
+        self.Config_lbl_2 = QtWidgets.QLabel(self.Central_Widget)
         self.Config_lbl_2.setGeometry(QtCore.QRect(20, 50, 20, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -208,7 +236,7 @@ class Ui_MainWindow(object):
                                         "color:rgb(155, 236, 226);\n"
                                         "}")
         self.Config_lbl_2.setObjectName("Config_lbl_2")
-        self.Config_lbl_3 = QtWidgets.QLabel(self.centralwidget)
+        self.Config_lbl_3 = QtWidgets.QLabel(self.Central_Widget)
         self.Config_lbl_3.setGeometry(QtCore.QRect(70, 50, 20, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -218,7 +246,7 @@ class Ui_MainWindow(object):
                                         "color:rgb(155, 236, 226);\n"
                                         "}")
         self.Config_lbl_3.setObjectName("Config_lbl_3")
-        self.Config_lbl_4 = QtWidgets.QLabel(self.centralwidget)
+        self.Config_lbl_4 = QtWidgets.QLabel(self.Central_Widget)
         self.Config_lbl_4.setGeometry(QtCore.QRect(120, 50, 20, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -228,17 +256,17 @@ class Ui_MainWindow(object):
                                         "color:rgb(155, 236, 226);\n"
                                         "}")
         self.Config_lbl_4.setObjectName("Config_lbl_4")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.setCentralWidget(self.Central_Widget)
+        self.menubar = QtWidgets.QMenuBar(self)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 313, 26))
         self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self)
+        QtCore.QMetaObject.connectSlotsByName(self)
 
         self.Start_btn.clicked.connect(lambda: self.btn_click_handler(self.Start_btn.objectName()))
         self.Stop_btn.clicked.connect(lambda: self.btn_click_handler(self.Stop_btn.objectName()))
@@ -279,6 +307,9 @@ class Ui_MainWindow(object):
             self.set_all_spinboxes_zero()
 
     def set_all_spinboxes_zero(self):
+        self.spinBoxSeconds.setValue(0)
+        self.spinBoxMinutes.setValue(0)
+        self.spinBoxHours.setValue(0)
         print("All SpinBoxes set in zero value!")
 
     def retranslateUi(self, MainWindow):
@@ -297,8 +328,8 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+#    MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    ui.setupUi()
+    ui.show()
     sys.exit(app.exec_())
