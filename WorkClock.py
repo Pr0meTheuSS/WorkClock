@@ -16,6 +16,28 @@ mixer.init()
 exec_dir_path = os.path.dirname(os.path.abspath(__file__))
 
 
+# Model Part
+class ClockModel:
+    Hours: int
+    Minutes: int
+    Seconds: int
+
+    def __init__(self, h=0, m=0, s=0):
+        self.Hours = h
+        self.Minutes = m
+        self.Seconds = s
+
+    def StartTimer(self):
+        pass
+
+    def StopTimer(self):
+        pass
+
+    def IsTimeOver(self):
+        pass
+
+
+# View Part
 class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def mouseMoveEvent(self, e):
@@ -37,9 +59,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.mousePosY = e.y()
             self.st = 1
 
-    def closeEvent(self, event):
-        print("Close Event")
-        pass
+    # def closeEvent(self, event):
+    #     print("Close Event")
+    #     pass
 
     def __init__(self):
         super().__init__()
@@ -58,7 +80,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.resize(310, 210)
         self.setMinimumSize(310, 210)
         self.setMaximumSize(310, 210)
-        # Hidden frame borders
+        # Hide frame borders
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
@@ -67,7 +89,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                                           "background-color: rgb(68, 147, 172);\n"
                                           "border-radius:10px;\n"
                                           "background: url(Images/BackImage1.jpg) no-repeat center;\n"
-                                          # "background-size:310px 210px;\n"
                                           "}")
         self.Central_Widget.setObjectName("Central_Widget")
         self.Start_btn = QtWidgets.QPushButton(self.Central_Widget)
@@ -287,6 +308,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.Cancel_btn.clicked.connect(lambda: self.btn_click_handler(self.Cancel_btn.objectName()))
         self.Exit_btn.clicked.connect(lambda: self.btn_click_handler(self.Exit_btn.objectName()))
 
+    # Remake as Service
     def DecTimer(self):
         hours_text = self.spinBoxHours.text()
         minutes_text = self.spinBoxMinutes.text()
@@ -304,6 +326,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.Timer.stop()
             mixer.music.stop()
 
+    # Remake as Service
     def btn_click_handler(self, obj_name):
         print(obj_name)
         if obj_name == "Exit_btn":
@@ -320,12 +343,14 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             mixer.music.stop()
             self.set_all_spinboxes_zero()
 
+    # Remake as Service
     def set_all_spinboxes_zero(self):
         self.spinBoxSeconds.setValue(0)
         self.spinBoxMinutes.setValue(0)
         self.spinBoxHours.setValue(0)
         print("All SpinBoxes set in zero value!")
 
+    # View Part
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "WorkClock"))
