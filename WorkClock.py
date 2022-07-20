@@ -52,12 +52,11 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def mousePressEvent(self, e):
         print(dir(e))
-        if e.type() == QtCore.QEvent.MouseButtonPress:
-            print(e.x())
-            print(e.y())
-            self.mousePosX = e.x()
-            self.mousePosY = e.y()
-            self.st = 1
+        print(e.x())
+        print(e.y())
+        self.mousePosX = e.x()
+        self.mousePosY = e.y()
+        self.st = 1
 
     # def closeEvent(self, event):
     #     print("Close Event")
@@ -65,7 +64,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setMouseTracking(True)
         self.Image_src_path = exec_dir_path + '/Images/'
         self.Sound_src_path = exec_dir_path + '/Sounds/'
 
@@ -303,18 +301,17 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.retranslateUi(self)
         QtCore.QMetaObject.connectSlotsByName(self)
 
-        self.Start_btn.clicked.connect(lambda: self.btn_click_handler(self.Start_btn.objectName()))
-        self.Stop_btn.clicked.connect(lambda: self.btn_click_handler(self.Stop_btn.objectName()))
-        self.Cancel_btn.clicked.connect(lambda: self.btn_click_handler(self.Cancel_btn.objectName()))
-        self.Exit_btn.clicked.connect(lambda: self.btn_click_handler(self.Exit_btn.objectName()))
+        self.Start_btn.clicked.connect(lambda: self.StartBtnHandler())
+        self.Stop_btn.clicked.connect(lambda: self.StopBtnHandler())
+        self.Cancel_btn.clicked.connect(lambda: self.CancelBtnHandler())
+        self.Exit_btn.clicked.connect(lambda: self.ExitBtnHandler())
 
     # Remake as Service
     def DecTimer(self):
         hours_text = self.spinBoxHours.text()
         minutes_text = self.spinBoxMinutes.text()
         seconds_text = self.spinBoxSeconds.text()
-        curr_time = QtCore.QTime()
-        curr_time = curr_time.fromString(hours_text + ":" + minutes_text + ":" + seconds_text, "H:m:s")
+        curr_time = QtCore.QTime().fromString(hours_text + ":" + minutes_text + ":" + seconds_text, "H:m:s")
 
         if curr_time != QtCore.QTime(0, 0, 0):
             new_time = curr_time.addSecs(-1)
@@ -326,29 +323,37 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.Timer.stop()
             mixer.music.stop()
 
-    # Remake as Service
-    def btn_click_handler(self, obj_name):
-        print(obj_name)
-        if obj_name == "Exit_btn":
-            print("Called Exit")
-            sys.exit(app.exec_())
-        if obj_name == "Start_btn":
-            mixer.music.play(-1)
-            self.Timer.start(1000)
-        elif obj_name == "Stop_btn":
-            self.Timer.stop()
-            mixer.music.stop()
-        else:
-            self.Timer.stop()
-            mixer.music.stop()
-            self.set_all_spinboxes_zero()
+    '''
+    if TimeIsOver():
+        # ...
+    # Decrement current time
+    SetCurrTime(GetCurrTime() - 1)
+    # Update view-part data
+    '''
+
+    def StartBtnHandler(self):
+        mixer.music.play(-1)
+        self.Timer.start(1000)
+
+    def StopBtnHandler(self):
+        self.Timer.stop()
+        mixer.music.stop()
+
+    def CancelBtnHandler(self):
+        self.Timer.stop()
+        mixer.music.stop()
+        self.set_all_spinboxes_zero()
+
+    def ExitBtnHandler(self): # Re:build to separate dependencies
+        print("Called Exit")
+        sys.exit(app.exec_())
 
     # Remake as Service
     def set_all_spinboxes_zero(self):
         self.spinBoxSeconds.setValue(0)
         self.spinBoxMinutes.setValue(0)
         self.spinBoxHours.setValue(0)
-        print("All SpinBoxes set in zero value!")
+        print("All SpinBoxes set in zero value.")
 
     # View Part
     def retranslateUi(self, MainWindow):
@@ -365,9 +370,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
-    #    MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi()
     ui.show()
