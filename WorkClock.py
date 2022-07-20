@@ -64,9 +64,11 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.Central_Widget = QtWidgets.QWidget(self)
         self.Central_Widget.setStyleSheet("QWidget{\n"
-                                         "    background-color: rgb(68, 147, 172);\n"
-                                         "    border-radius:20px;\n"
-                                         "}")
+                                          "background-color: rgb(68, 147, 172);\n"
+                                          "border-radius:10px;\n"
+                                          "background: url(Images/BackImage1.jpg) no-repeat center;\n"
+                                          # "background-size:310px 210px;\n"
+                                          "}")
         self.Central_Widget.setObjectName("Central_Widget")
         self.Start_btn = QtWidgets.QPushButton(self.Central_Widget)
         self.Start_btn.setGeometry(QtCore.QRect(210, 120, 90, 30))
@@ -76,7 +78,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         font.setWeight(75)
         self.Start_btn.setFont(font)
         self.Start_btn.setStyleSheet("QPushButton{\n"
-                                     "background-color: rgb(55, 83, 95);\n"
+                                     "background: none;\n"
+                                     "background-color: rgba(55, 83, 95);\n"
                                      "border-radius:10px;\n"
                                      "border-top-left-radius:20px;\n"
                                      "border-bottom-left-radius:20px;\n"
@@ -102,6 +105,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.Stop_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.Stop_btn.setAutoFillBackground(False)
         self.Stop_btn.setStyleSheet("QPushButton{\n"
+                                    "background: none;\n"
                                     "background-color: rgb(55, 83, 95);\n"
                                     "border-radius:10px;\n"
                                     "border-top-right-radius:20px;\n"
@@ -126,6 +130,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         font.setItalic(True)
         self.Config_lbl.setFont(font)
         self.Config_lbl.setStyleSheet("QLabel{\n"
+                                      "background: none;\n"
                                       "color:rgb(155, 236, 226);\n"
                                       "}")
         self.Config_lbl.setObjectName("Config_lbl")
@@ -140,6 +145,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.Cancel_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.Cancel_btn.setAutoFillBackground(False)
         self.Cancel_btn.setStyleSheet("QPushButton{\n"
+                                      "background: none;\n"
                                       "background-color: rgb(55, 83, 95);\n"
                                       "border-radius:10px;\n"
                                       "color:rgb(155, 236, 226);\n"
@@ -157,6 +163,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.Exit_btn.setAcceptDrops(False)
         self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.Exit_btn.setStyleSheet("QPushButton{\n"
+                                    "background: none;\n"
                                     "background: url(Images/ExitWidget.png) no-repeat center;\n"
                                     "border-radius:10px;\n"
                                     "}"
@@ -170,11 +177,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # ClockImage_lbl
         self.ClockImage_lbl = QtWidgets.QLabel(self.Central_Widget)
-        self.ClockImage_lbl.setGeometry(QtCore.QRect(125, 10, 40, 40))
+        self.ClockImage_lbl.setGeometry(QtCore.QRect(125, 10, 35, 30))
         self.Exit_btn.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.ClockImage_lbl.setStyleSheet("QLabel{\n"
-                                          "background: url(" + self.Image_src_path + ") no-repeat center;\n"
-                                                                                     "}")
+                                          "background: none;\n"
+                                          "background-image: url(Images/ClockWidget.png) no-repeat center;\n"
+                                          "}")
         self.ClockImage_lbl.setObjectName("ClockImage_lbl")
 
         self.OutputTime_lbl = QtWidgets.QLabel(self.Central_Widget)
@@ -184,6 +192,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.spinBoxHours = QtWidgets.QSpinBox(self.Central_Widget)
         self.spinBoxHours.setGeometry(QtCore.QRect(10, 80, 40, 30))
         self.spinBoxHours.setStyleSheet("QSpinBox{\n"
+                                        "background: none;\n"
                                         "color:rgb(155, 236, 226);\n"
                                         "background-color: rgb(55, 83, 95);\n"
                                         "    border-radius:10px;\n"
@@ -200,6 +209,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.spinBoxMinutes.setGeometry(QtCore.QRect(60, 80, 40, 30))
         self.spinBoxMinutes.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.spinBoxMinutes.setStyleSheet("QSpinBox{\n"
+                                          "background: none;\n"
                                           "color:rgb(155, 236, 226);\n"
                                           "background-color: rgb(55, 83, 95);\n"
                                           "    border-radius:10px;\n"
@@ -215,6 +225,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.spinBoxSeconds.setGeometry(QtCore.QRect(110, 80, 40, 30))
         self.spinBoxSeconds.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.spinBoxSeconds.setStyleSheet("QSpinBox{\n"
+                                          "background: none;\n"
                                           "color:rgb(155, 236, 226);\n"
                                           "background-color: rgb(55, 83, 95);\n"
                                           "    border-radius:10px;\n"
@@ -233,6 +244,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         font.setBold(True)
         self.Config_lbl_2.setFont(font)
         self.Config_lbl_2.setStyleSheet("QLabel{\n"
+                                        "background: none;\n"
                                         "color:rgb(155, 236, 226);\n"
                                         "}")
         self.Config_lbl_2.setObjectName("Config_lbl_2")
@@ -243,6 +255,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         font.setBold(True)
         self.Config_lbl_3.setFont(font)
         self.Config_lbl_3.setStyleSheet("QLabel{\n"
+                                        "background: none;\n"
                                         "color:rgb(155, 236, 226);\n"
                                         "}")
         self.Config_lbl_3.setObjectName("Config_lbl_3")
@@ -253,6 +266,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         font.setBold(True)
         self.Config_lbl_4.setFont(font)
         self.Config_lbl_4.setStyleSheet("QLabel{\n"
+                                        "background: none;\n"
                                         "color:rgb(155, 236, 226);\n"
                                         "}")
         self.Config_lbl_4.setObjectName("Config_lbl_4")
@@ -296,7 +310,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             print("Called Exit")
             sys.exit(app.exec_())
         if obj_name == "Start_btn":
-            mixer.music.play()
+            mixer.music.play(-1)
             self.Timer.start(1000)
         elif obj_name == "Stop_btn":
             self.Timer.stop()
@@ -328,7 +342,7 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-#    MainWindow = QtWidgets.QMainWindow()
+    #    MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi()
     ui.show()
